@@ -1,37 +1,52 @@
-﻿Public Class Contact
+﻿Imports System.ComponentModel
 
-    Private _name As String
-    Public Property Name() As String
-        Get
-            Return _name
-        End Get
+Public Class Contact
 
-        Set(ByVal value As String)
-            _name = value
-        End Set
-    End Property
+  Private _id As String
 
-    Private _email As String
-    Public Property Email() As String
-        Get
-            Return _email
-        End Get
+  <Browsable(False)>
+  Public Property Id() As Integer
+    Get
+      Return _id
+    End Get
 
-        Set(ByVal value As String)
-      'Fix ISSUE #2: the _name was set instead of _email
+    Set(ByVal value As Integer)
+      _id = value
+    End Set
+  End Property
+
+  Private _name As String
+  Public Property Name() As String
+    Get
+      Return _name
+    End Get
+
+    Set(ByVal value As String)
+      _name = value
+    End Set
+  End Property
+
+  Private _email As String
+  Public Property Email() As String
+    Get
+      Return _email
+    End Get
+
+    Set(ByVal value As String)
+      'Fix ISSUE: the _name was set instead of _email
       _email = value
-        End Set
-    End Property
+    End Set
+  End Property
 
-    Private _phone As String
-    Public Property Phone() As String
-        Get
-            Return _phone
-        End Get
+  Private _phone As String
+  Public Property Phone() As String
+    Get
+      Return _phone
+    End Get
 
-        Set(ByVal value As String)
-            _phone = value
-        End Set
-    End Property
+    Set(ByVal value As String)
+      _phone = value
+    End Set
+  End Property
 
 End Class

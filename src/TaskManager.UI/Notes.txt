@@ -1,0 +1,36 @@
+﻿TASKS
+------------------------------------
+
+1. Fix the existing Bugs
+
+   a) Class Contact
+        fix error in email property
+        Fix ISSUE: the _name was set instead of _email
+        
+   b) Class ContactRepository
+        Function InsertContact
+          Fix the SQL query
+          Set Return value = True
+
+        Function GetContacts
+          Fix the SQL query
+
+
+2. Implement an Edit Form
+
+   New button "Edit Contact" created in the main form
+   New form created: EditContact.vb
+   New button "Save" created in the EditContact form
+     Update data in the database
+   New button "Cancel" created in the EditContact form
+     Cancel the operation
+
+
+3. Implement a Contact Import
+
+   Added "demo" JSON file in the project (contacts.json)
+   New button "Import Contacts" created in the main form
+   Import data from a JSON file
+   Will show error if file format is invalid
+   Show confirmation message after successful import
+   Show error message if import fails

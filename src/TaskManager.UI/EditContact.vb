@@ -1,24 +1,34 @@
 ﻿Imports TaskManager.Core
 Imports TaskManager.Data
 
-Public Class AddContact
-  Private Sub ButtonAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
+Public Class EditContact
+
+  Friend Id As Integer
+
+  Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
 
     Dim contact As New Contact() With {
+            .Id = Id,
             .Name = txtName.Text,
             .Email = txtEmail.Text,
             .Phone = txtPhone.Text
         }
 
     Using contactRepo As New ContactRepository()
-      contactRepo.InsertContact(contact)
+      contactRepo.UpdateContact(contact)
     End Using
 
-    Me.DialogResult = DialogResult.OK
-
     ClearTextBoxes()
-    Close()
 
+    Me.DialogResult = DialogResult.OK
+    Close()
+  End Sub
+
+  Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+    ClearTextBoxes()
+
+    Me.DialogResult = DialogResult.Cancel
+    Close()
   End Sub
 
   Private Sub ClearTextBoxes()
@@ -26,4 +36,5 @@ Public Class AddContact
     txtEmail.Clear()
     txtPhone.Clear()
   End Sub
+
 End Class

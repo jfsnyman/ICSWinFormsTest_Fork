@@ -5,6 +5,7 @@
         Get
             Return _name
         End Get
+
         Set(ByVal value As String)
             _name = value
         End Set
@@ -15,8 +16,10 @@
         Get
             Return _email
         End Get
+
         Set(ByVal value As String)
-            _name = value
+      'Fix ISSUE #2: the _name was set instead of _email
+      _email = value
         End Set
     End Property
 
@@ -25,8 +28,10 @@
         Get
             Return _phone
         End Get
+
         Set(ByVal value As String)
             _phone = value
         End Set
     End Property
+
 End Class

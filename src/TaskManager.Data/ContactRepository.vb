@@ -10,7 +10,9 @@ Public Class ContactRepository
     Public Function InsertContact(contact As Contact) As Boolean
         Using connection As New SQLiteConnection(SQLiteHelper.DBPath)
             connection.Open()
-            Dim insertQuery As String = "INSERT INTO Contact (Name, Email, Phone) VALUES (@Email, @Name, @Phone)"
+
+      ' FIX ISSUE #1: The query was inserting the values in the wrong order
+      Dim insertQuery As String = "INSERT INTO Contact (Name, Email, Phone) VALUES (@Name, @Email, @Phone)"
             Using command As New SQLiteCommand(insertQuery, connection)
                 command.Parameters.AddWithValue("@Name", contact.Name)
                 command.Parameters.AddWithValue("@Email", contact.Email)
@@ -27,7 +29,10 @@ Public Class ContactRepository
 
         Using connection As New SQLiteConnection(SQLiteHelper.DBPath)
             connection.Open()
-            Dim selectQuery As String = "SELECT Name, Email, 0 AS Phone FROM Contact WHERE 1 = 0"
+      'Dim selectQuery As String = "SELECT Name, Email, 0 AS Phone FROM Contact WHERE 1 = 0"
+
+      ' FIX ISSUE #3: Problem with the SQL Query
+      Dim selectQuery As String = "SELECT Name, Email, Phone FROM Contact"
             Using command As New SQLiteCommand(selectQuery, connection)
                 Using reader As SQLiteDataReader = command.ExecuteReader()
                     While reader.Read()
@@ -39,4 +44,5 @@ Public Class ContactRepository
 
         Return contacts
     End Function
+
 End Class

@@ -2,12 +2,14 @@
   {
     "name": "Peter Parker",
     "email": "peter.parker@spidyweb.com",
-    "phone": "1234567890"
+    "phone": "1234567890",
+    "active": "1"
   },
   {
     "name": "Clark Kent",
     "email": "clark.kent@kripton.net",
-    "phone": "987654321"
+    "phone": "987654321",
+    "active": "1"
   }
 ]
 

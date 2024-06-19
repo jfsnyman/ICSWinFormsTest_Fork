@@ -24,18 +24,40 @@ Public Class ContactListing
 
   Private Sub GetContacts() Handles ButtonAdd.Click
     Using contactRepo As New ContactRepository()
-      contacts = contactRepo.GetContacts()
-      grdContacts.DataSource = contacts
+
+      Dim Filter As String = edtFilter.Text.Trim
+
+      Try
+        If chkShowOnlyActive.Checked Then
+          If Filter = "" Then
+            Filter = "Active = 1"
+          Else
+            Filter = Filter & " AND Active = 1"
+          End If
+        End If
+
+        contacts = contactRepo.GetContacts(Filter)
+        grdContacts.DataSource = contacts
+
+      Catch ex As Exception
+        MessageBox.Show("Contatcs failed to load from the database. Please check the FILTER" & vbCrLf & vbCrLf & ex.ToString(), "Contact Manager", MessageBoxButtons.OK, MessageBoxIcon.Error)
+      End Try
     End Using
   End Sub
 
   Private Sub ButtonEdit_Click(sender As Object, e As EventArgs) Handles ButtonEdit.Click
     Using editContactForm As New EditContact()
 
-      Dim RowIndex As Integer = grdContacts.CurrentRow.Index
+      Dim RowIndex As Integer
+
+      Try
+        RowIndex = grdContacts.CurrentRow.Index
+      Catch ex As Exception
+        RowIndex = -1
+      End Try
 
       If RowIndex < 0 Then
-        MessageBox.Show("Please select a contact to edit.")
+        MessageBox.Show("Please select a contact to edit.", "Contact Manager", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Return
       End If
 
@@ -43,6 +65,7 @@ Public Class ContactListing
       editContactForm.txtName.Text = contacts(RowIndex).Name
       editContactForm.txtEmail.Text = contacts(RowIndex).Email
       editContactForm.txtPhone.Text = contacts(RowIndex).Phone
+      editContactForm.CheckActive.Checked = (contacts(RowIndex).Active = 1)
 
       If editContactForm.ShowDialog() = DialogResult.OK Then
         GetContacts()
@@ -52,7 +75,7 @@ Public Class ContactListing
 
   Private Sub ButtonImport_Click(sender As Object, e As EventArgs) Handles ButtonImport.Click
     If ImportContacts() Then
-      MessageBox.Show("New contacts imported successfully.")
+      MessageBox.Show("New contacts imported successfully.", "Contact Manager", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End If
   End Sub
 
@@ -67,7 +90,7 @@ Public Class ContactListing
       json = File.ReadAllText(jsonFile)
 
       If json.ValidJSon() = False Then
-        MessageBox.Show("JSON file could not be imported. Please check the file contents.")
+        MessageBox.Show("JSON file could not be imported. Please check the file contents.", "Contact Manager", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Return False
       End If
 
@@ -84,7 +107,7 @@ Public Class ContactListing
 
       Catch ex As Exception
         ' Invalid json - just in case ValidJson did not catch the error
-        MessageBox.Show("JSON file could not be imported. Please check the file contents." & vbCrLf & vbCrLf & ex.ToString())
+        MessageBox.Show("JSON file could not be imported. Please check the file contents." & vbCrLf & vbCrLf & ex.ToString(), "Contact Manager", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Return False
       End Try
 
@@ -104,5 +127,17 @@ Public Class ContactListing
     Debug.Print(json)
     Debug.Print("-----------------------------------------------------------")
 
+  End Sub
+
+  Private Sub ButtonRefresh_Click(sender As Object, e As EventArgs) Handles ButtonRefresh.Click
+    GetContacts()
+  End Sub
+
+  Private Sub chkShowOnlyActive_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowOnlyActive.CheckedChanged
+    GetContacts()
+  End Sub
+
+  Private Sub ButtonClose_Click(sender As Object, e As EventArgs) Handles ButtonClose.Click
+    Me.Close()
   End Sub
 End Class

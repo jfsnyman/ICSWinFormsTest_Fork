@@ -49,4 +49,15 @@ Public Class Contact
     End Set
   End Property
 
+  Private _active As Integer
+  Public Property Active() As Integer
+    Get
+      Return _active
+    End Get
+
+    Set(ByVal value As Integer)
+      _active = value
+    End Set
+  End Property
+
 End Class

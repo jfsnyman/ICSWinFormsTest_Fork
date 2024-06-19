@@ -34,3 +34,21 @@
    Will show error if file format is invalid
    Show confirmation message after successful import
    Show error message if import fails
+
+OPTIONAL TASKS
+------------------------------------
+
+1. Added a FILTER textbox on the ContactListing form where you can enter "WHERE queries
+   (Press the REFRESH button to execute the filter)
+    
+    Phone = 42434234
+    Name LIKE 'Ja%'
+    Email LIKE 'John%'
+    Name LIKE 'Ja%' OR Name LIKE 'Jo%'
+
+
+2. Added the Active field to the database.
+   Modified code to use the Active field.
+   Add checkbox to show/hide active contacts
+
+3. Added error handling and form validation the all the forms
